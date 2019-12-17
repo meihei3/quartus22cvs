@@ -11,7 +11,7 @@ SUB_ABLE = (7, 8, 9, 10, 11, 12, 13, 14, 15)
 SUMMARY_FILENAME_PATTERN = re.compile(r".+\.fit\.summary")
 TIME_ANARYZER_RPT_FILENAME_PATTERN = re.compile(r".+\.sta\.rpt")
 GABARAGE_SPARCE_PATTERN = re.compile(r"[\s\n]")
-FMAX_VALUE_PATTERN = re.compile(r";\s+Fmax.+\s([\d.]+\sMHz).+\d", re.DOTALL)
+FMAX_VALUE_PATTERN = re.compile(r"85C[\sA-Za-z]+..[+-]+..\s+Fmax[\s;A-Za-z]+.[+-]+..\s+([\d.]+\sMHz)\s+;\s+\d", re.DOTALL)
 
 def __get_summary_file(tdir: str) -> str:
     out_tdir = tdir + ("/" if tdir[-1] != '/' else '') + "output_files"
@@ -48,8 +48,9 @@ def __generate_csv_file(target_dir: str, more: str, output: str, is_overwrite: b
             raise ValueError("Fmax value was not found.")
     data.append(more)
     if is_overwrite:
+        flag = os.path.exists(output)
         with open(output, 'a') as f:
-            if not os.path.exists(output):
+            if not flag:
                 f.write(",".join(COLUMNS) + '\n')
             f.write(",".join(data) + '\n')
     else:
