@@ -25,3 +25,4 @@ Quartus2のsummaryのデータをCVSで保存する．
     -m, --more [INFORMATION_TEXT]       メモ的な用途で，CSV内のカラム"More Information"に
                                         書き込むテキストを指定する．
     -o, --output [OUTPUT_FILE]          出力するファイル名．
+    --overwrite                         出力するファイルが既に存在するときに上書きをする．
