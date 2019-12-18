@@ -13,6 +13,7 @@ TIME_ANARYZER_RPT_FILENAME_PATTERN = re.compile(r".+\.sta\.rpt")
 GABARAGE_SPARCE_PATTERN = re.compile(r"[\s\n]")
 FMAX_VALUE_PATTERN = re.compile(r"85C[\sA-Za-z]+..[+-]+..\s+Fmax[\s;A-Za-z]+.[+-]+..\s+([\d.]+\sMHz)\s+;\s+\d", re.DOTALL)
 
+
 def __get_summary_file(tdir: str) -> str:
     out_tdir = tdir + ("/" if tdir[-1] != '/' else '') + "output_files"
     if not os.path.isdir(out_tdir):
@@ -33,7 +34,6 @@ def __get_time_anaryzer_report_file(tdir: str) -> str:
     raise FileExistsError("The file : \".+\.sta\.rpt\" is not found.")
 
 
-
 def __generate_csv_file(target_dir: str, more: str, output: str, is_overwrite: bool):
     summary_file = __get_summary_file(target_dir)
     ta_rpt_file = __get_time_anaryzer_report_file(target_dir)
@@ -47,6 +47,7 @@ def __generate_csv_file(target_dir: str, more: str, output: str, is_overwrite: b
         else:
             raise ValueError("Fmax value was not found.")
     data.append(more)
+    data = list(map(lambda x: '\"'+x+'\"', data))
     if is_overwrite:
         flag = os.path.exists(output)
         with open(output, 'a') as f:
